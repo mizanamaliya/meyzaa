@@ -49,7 +49,16 @@ Menghapus komponen CatatanBelumAktif dan fungsi pembacaan data contoh (cariProdu
 
 Ubah components/TombolWhatsApp.jsx menjadi tautan yang membuka https://wa.me/ ke nomor di lib/toko.js, dengan pesan otomatis berisi nama dan harga produk dalam format rupiah. Pesan di-encode dengan encodeURIComponent dan dibuka di tab baru. Pertahankan tampilan tombolnya. Hapus CatatanBelumAktif yang menyebut US-03 di halaman detail produk.**
 
-**Hasil:**
+**Hasil:Fitur US-03: Pesan via WhatsApp telah selesai diimplementasikan.
+
+File yang Diubah
+components/TombolWhatsApp.jsx
+Diubah dari elemen <button> menjadi tautan <a> dengan styling tampilan tombol yang sama persis (bg-utama, hover:bg-utama-gelap, dsb).
+Tautan mengarah ke https://wa.me/<nomor>?text=<pesan> menggunakan nomor WhatsApp dari lib/toko.js.
+Pesan otomatis dibuat dengan nama dan harga produk dalam format rupiah menggunakan fungsi formatRupiah dan di-encode menggunakan encodeURIComponent.
+Dilengkapi atribut target="_blank" dan rel="noopener noreferrer" agar terbuka di tab baru.
+app/produk/[id]/page.jsx
+Komponen CatatanBelumAktif terkait US-03 telah dibersihkan dari halaman detail produk.**
 
 **Perbaikan:**
 
@@ -59,7 +68,22 @@ Ubah components/TombolWhatsApp.jsx menjadi tautan yang membuka https://wa.me/ ke
 
 Buat login admin memakai Supabase Auth (email dan password) dengan @supabase/ssr dan cookie, memakai SUPABASE_URL dan SUPABASE_PUBLISHABLE_KEY. Login diproses dengan Server Action di app/admin/actions.js dan disambungkan ke form di app/admin/login/page.jsx. Login berhasil diarahkan ke /admin; login gagal menampilkan pesan error yang jelas di halaman login. Buat juga tombol "Keluar" di components/NavAdmin.jsx berfungsi: mengakhiri sesi lalu kembali ke /admin/login. Jangan ubah tampilan. Hapus CatatanBelumAktif dari halaman login.**
 
-**Hasil:**
+**Hasil: Fitur US-04: Login admin telah selesai diimplementasikan.
+
+File yang Ditambahkan & Diubah
+lib/supabase/session.js (Baru)
+Membuat fungsi createSessionClient() menggunakan @supabase/ssr dan cookies() dari next/headers dengan SUPABASE_URL dan SUPABASE_PUBLISHABLE_KEY untuk mengelola sesi admin.
+lib/supabase/index.js (Diubah)
+Menambahkan re-export untuk session.js.
+app/admin/actions.js (Baru)
+Server Action login: memproses autentikasi email dan password via supabase.auth.signInWithPassword. Jika berhasil dialihkan ke /admin, jika gagal mengembalikan pesan error.
+Server Action keluar: memanggil supabase.auth.signOut() untuk menghapus cookie sesi dan mengalihkan kembali ke /admin/login.
+app/admin/login/page.jsx (Diubah)
+Menggunakan useActionState untuk menghubungkan form login dengan Server Action login.
+Menampilkan pesan error di bawah judul jika login gagal.
+Menghapus komponen CatatanBelumAktif tanpa mengubah styling layout.
+components/NavAdmin.jsx (Diubah)
+Menghubungkan tombol "Keluar" ke Server Action keluar dengan form submission tanpa mengubah tampilan tombol.**
 
 **Perbaikan:**
 
